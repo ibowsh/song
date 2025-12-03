@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blue Hair - Tv Girl</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: #0a0a1a;
+      color: #fff;
+      font-family: 'Arial', sans-serif;
+      min-height: 100vh;
+      padding: 0;
+      margin: 0;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: 
+        radial-gradient(circle at 20% 30%, rgba(196, 0, 160, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 80% 70%, rgba(0, 191, 255, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 50% 50%, rgba(59, 130, 246, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at center, #1a0a2e 0%, #0a0a1a 100%);
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .main-container {
+      position: relative;
+      z-index: 1;
+    }
+
+    .main-container {
+      display: flex;
+      align-items: stretch;
+      justify-content: space-between;
+      gap: 6rem;
+      max-width: 1600px;
+      margin: 0 auto;
+      padding: 2rem 4rem;
+      min-height: 100vh;
+    }
+
+    .left-section {
+      flex: 0 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 0;
+      padding-top: 2rem;
+      margin-left: -2rem;
+      height: 100%;
+    }
+
+    .content-box {
+      background: rgba(26, 10, 46, 0.7);
+      border: 2px solid rgba(196, 0, 160, 0.4);
+      border-radius: 30px;
+      padding: 2.5rem;
+      box-shadow: 
+        0 0 30px rgba(196, 0, 160, 0.5),
+        0 0 60px rgba(59, 130, 246, 0.3),
+        inset 0 0 30px rgba(0, 0, 0, 0.4);
+      backdrop-filter: blur(15px);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+      position: relative;
+      overflow: visible;
+      height: 100%;
+      min-height: 85vh;
+    }
+
+    .content-box::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: radial-gradient(circle at 50% 0%, rgba(196, 0, 160, 0.1), transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .content-box > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    .blue-hair-title {
+      font-size: clamp(1.5rem, 3vw, 2.5rem);
+      font-weight: bold;
+      letter-spacing: 0.05em;
+      text-align: center;
+      margin: 2rem 0;
+      padding: 0;
+      position: relative;
+      z-index: 1;
+    }
+
+    .blue-text {
+      color: #00bfff;
+      text-shadow: 
+        0 0 20px rgba(0, 191, 255, 0.8),
+        0 0 40px rgba(0, 191, 255, 0.6),
+        0 0 60px rgba(0, 191, 255, 0.4);
+      filter: drop-shadow(0 0 15px rgba(0, 191, 255, 0.6));
+    }
+
+    .hair-text {
+      background: linear-gradient(135deg, #c400a0, #ff00ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-shadow: 0 0 20px rgba(196, 0, 160, 0.7),
+                   0 0 40px rgba(255, 0, 255, 0.5);
+      filter: drop-shadow(0 0 15px rgba(196, 0, 160, 0.5));
+    }
+
+    .circle-container {
+      position: relative;
+      width: 400px;
+      height: 400px;
+      max-width: 40vw;
+      max-height: 40vw;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1;
+      margin: 0;
+      padding: 0;
+      transition: transform 0.3s ease;
+    }
+
+    .circle-container.playing {
+      animation: rotateCircle 20s linear infinite;
+    }
+
+    @keyframes rotateCircle {
+      from {
+        transform: rotate(0deg);
+      }
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    /* Визуализация звука - волны */
+    .sound-waves {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 0;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    .wave {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      border: 2px solid rgba(0, 191, 255, 0.4);
+      border-radius: 50%;
+      opacity: 0;
+    }
+
+    .wave-1 {
+      width: 100%;
+      height: 100%;
+      animation: waveExpand 4s ease-out infinite;
+    }
+
+    .wave-2 {
+      width: 100%;
+      height: 100%;
+      animation: waveExpand 4s ease-out 1.3s infinite;
+    }
+
+    .wave-3 {
+      width: 100%;
+      height: 100%;
+      animation: waveExpand 4s ease-out 2.6s infinite;
+    }
+
+    @keyframes waveExpand {
+      0% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 0.6;
+      }
+      100% {
+        transform: translate(-50%, -50%) scale(2.5);
+        opacity: 0;
+      }
+    }
+
+    .circle-container.playing .sound-waves {
+      display: block;
+    }
+
+    .circle-container:not(.playing) .sound-waves {
+      display: none;
+    }
+
+    .right-section {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: flex-start;
+      gap: 2rem;
+      max-width: 650px;
+      width: 100%;
+      padding-top: 2rem;
+      margin-right: -2rem;
+      height: 100%;
+    }
+
+    .outer-circle {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background: radial-gradient(circle at 30% 30%, rgba(59, 130, 246, 0.3), rgba(196, 0, 160, 0.3));
+      box-shadow: 
+        0 0 60px rgba(59, 130, 246, 0.8),
+        0 0 120px rgba(196, 0, 160, 0.6),
+        inset 0 0 80px rgba(59, 130, 246, 0.2);
+      border: 2px solid rgba(196, 0, 160, 0.3);
+    }
+
+    .inner-circle {
+      position: absolute;
+      width: 70%;
+      height: 70%;
+      border-radius: 50%;
+      background: #4a1d5c;
+      background: radial-gradient(circle at center, #5a1d6c, #3a0d4c);
+      box-shadow: 
+        inset 0 0 40px rgba(0, 0, 0, 0.8),
+        0 0 30px rgba(74, 29, 92, 0.6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 2;
+    }
+
+    .center-image {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 60%;
+      height: 60%;
+      object-fit: cover;
+      border-radius: 50%;
+      z-index: 3;
+      filter: 
+        drop-shadow(0 0 15px rgba(255, 0, 255, 0.7))
+        drop-shadow(0 0 30px rgba(0, 150, 255, 0.6))
+        drop-shadow(0 0 45px rgba(255, 0, 255, 0.4));
+    }
+
+    .white-dot {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: #fff;
+      right: 15%;
+      top: 20%;
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+      z-index: 3;
+    }
+
+    .audio-container {
+      width: 100%;
+      max-width: 400px;
+      z-index: 1;
+      margin: 2rem 0 0 0;
+      padding: 1.5rem;
+      background: rgba(10, 5, 20, 0.5);
+      border: 1px solid rgba(196, 0, 160, 0.3);
+      border-radius: 20px;
+      box-shadow: 
+        0 0 15px rgba(196, 0, 160, 0.3),
+        0 0 30px rgba(59, 130, 246, 0.15),
+        inset 0 0 15px rgba(0, 0, 0, 0.4);
+      backdrop-filter: blur(8px);
+      position: relative;
+    }
+
+    .custom-player {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .player-controls {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .play-pause-btn {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, rgba(196, 0, 160, 0.3), rgba(59, 130, 246, 0.3));
+      border: 2px solid rgba(196, 0, 160, 0.5);
+      color: #fff;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      transition: all 0.3s ease;
+      box-shadow: 
+        0 0 15px rgba(196, 0, 160, 0.5),
+        0 0 30px rgba(59, 130, 246, 0.3);
+      flex-shrink: 0;
+    }
+
+    .play-pause-btn:hover {
+      transform: scale(1.1);
+      box-shadow: 
+        0 0 20px rgba(196, 0, 160, 0.7),
+        0 0 40px rgba(59, 130, 246, 0.5);
+      border-color: rgba(196, 0, 160, 0.8);
+    }
+
+    .play-pause-btn:active {
+      transform: scale(0.95);
+    }
+
+    .progress-container {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+
+    .progress-bar-wrapper {
+      flex: 1;
+      height: 6px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      position: relative;
+      cursor: pointer;
+      overflow: hidden;
+    }
+
+    .progress-bar {
+      height: 100%;
+      background: linear-gradient(90deg, #00bfff, #c400a0, #ff00ff);
+      border-radius: 10px;
+      width: 0%;
+      transition: width 0.1s linear;
+      box-shadow: 
+        0 0 10px rgba(0, 191, 255, 0.6),
+        0 0 20px rgba(196, 0, 160, 0.4);
+      position: relative;
+    }
+
+    .progress-bar::after {
+      content: '';
+      position: absolute;
+      right: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 12px;
+      height: 12px;
+      background: #fff;
+      border-radius: 50%;
+      box-shadow: 
+        0 0 10px rgba(255, 255, 255, 0.8),
+        0 0 20px rgba(196, 0, 160, 0.6);
+    }
+
+    .time-display {
+      font-size: 0.85rem;
+      color: rgba(255, 255, 255, 0.8);
+      min-width: 80px;
+      text-align: center;
+      font-variant-numeric: tabular-nums;
+      text-shadow: 0 0 5px rgba(196, 0, 160, 0.5);
+    }
+
+    .volume-control {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-top: 0.5rem;
+    }
+
+    .volume-icon {
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 1rem;
+      width: 20px;
+    }
+
+    .volume-bar-wrapper {
+      flex: 1;
+      height: 4px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      position: relative;
+      cursor: pointer;
+    }
+
+    .volume-bar {
+      height: 100%;
+      background: linear-gradient(90deg, #00bfff, #c400a0);
+      border-radius: 10px;
+      width: 100%;
+      box-shadow: 0 0 8px rgba(196, 0, 160, 0.4);
+    }
+
+    audio {
+      display: none;
+    }
+
+    .lyrics-container {
+      background: rgba(26, 10, 46, 0.7);
+      border: 2px solid rgba(0, 191, 255, 0.4);
+      border-radius: 25px;
+      padding: 2.5rem;
+      box-shadow: 
+        0 0 30px rgba(0, 191, 255, 0.5),
+        0 0 60px rgba(0, 191, 255, 0.3),
+        inset 0 0 30px rgba(0, 0, 0, 0.4);
+      backdrop-filter: blur(15px);
+      position: relative;
+      overflow-y: auto;
+      max-height: 85vh;
+      min-height: 300px;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+    }
+
+    .lyrics-container::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    .lyrics-container::-webkit-scrollbar-track {
+      background: rgba(0, 0, 0, 0.2);
+      border-radius: 10px;
+    }
+
+    .lyrics-container::-webkit-scrollbar-thumb {
+      background: rgba(196, 0, 160, 0.5);
+      border-radius: 10px;
+    }
+
+    .lyrics-container::-webkit-scrollbar-thumb:hover {
+      background: rgba(196, 0, 160, 0.7);
+    }
+
+    .lyrics-container::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: radial-gradient(circle at 50% 50%, rgba(196, 0, 160, 0.1), transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .lyrics-container::after {
+      content: '♪';
+      position: absolute;
+      top: 1rem;
+      left: 1.5rem;
+      font-size: 2rem;
+      color: rgba(196, 0, 160, 0.3);
+      opacity: 0.5;
+      z-index: 0;
+    }
+
+    #lyrics {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      align-items: center;
+      padding: 1rem 0;
+    }
+
+    .lyric-line {
+      font-size: clamp(1.1rem, 2vw, 1.6rem);
+      transition: 
+        font-size 0.8s cubic-bezier(0.4, 0, 0.2, 1),
+        color 0.8s cubic-bezier(0.4, 0, 0.2, 1),
+        opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1),
+        transform 0.8s cubic-bezier(0.4, 0, 0.2, 1),
+        font-weight 0.8s cubic-bezier(0.4, 0, 0.2, 1),
+        text-shadow 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+      line-height: 1.8;
+      text-align: center;
+      font-weight: 400;
+      letter-spacing: 0.03em;
+      padding: 0.5rem 1rem;
+      opacity: 0.6;
+      transform: scale(1);
+    }
+
+    /* Фиолетовые строки (нечетные) */
+    .lyric-line:nth-child(odd) {
+      color: rgba(255, 0, 255, 0.5);
+      text-shadow: 
+        0 0 8px rgba(255, 0, 255, 0.4),
+        0 0 15px rgba(255, 0, 255, 0.3);
+    }
+
+    /* Синие строки (четные) */
+    .lyric-line:nth-child(even) {
+      color: rgba(0, 191, 255, 0.5);
+      text-shadow: 
+        0 0 8px rgba(0, 191, 255, 0.4),
+        0 0 15px rgba(0, 191, 255, 0.3);
+    }
+
+    /* Активная фиолетовая строка */
+    .lyric-line:nth-child(odd).active {
+      font-size: clamp(1.4rem, 2.5vw, 2.2rem);
+      color: #ff00ff;
+      text-shadow: 
+        0 0 15px rgba(255, 0, 255, 0.9),
+        0 0 30px rgba(255, 0, 255, 0.7),
+        0 0 45px rgba(255, 0, 255, 0.5);
+      opacity: 1;
+      font-weight: 600;
+      transform: scale(1.05);
+    }
+
+    /* Активная синяя строка */
+    .lyric-line:nth-child(even).active {
+      font-size: clamp(1.4rem, 2.5vw, 2.2rem);
+      color: #00bfff;
+      text-shadow: 
+        0 0 15px rgba(0, 191, 255, 0.9),
+        0 0 30px rgba(0, 191, 255, 0.7),
+        0 0 45px rgba(0, 191, 255, 0.5);
+      opacity: 1;
+      font-weight: 600;
+      transform: scale(1.05);
+    }
+
+    .lyric-line.past {
+      opacity: 0.4;
+      transform: scale(0.98);
+    }
+
+
+    @media (max-width: 1024px) {
+      .main-container {
+        flex-direction: column;
+        gap: 3rem;
+      }
+
+      .right-section {
+        align-items: center;
+        text-align: center;
+      }
+
+      .lyrics-container {
+        min-height: 150px;
+        padding: 2rem;
+        max-height: 60vh;
+      }
+
+      .lyric-line {
+        font-size: clamp(1rem, 2.5vw, 1.4rem);
+      }
+
+      .lyric-line.active {
+        font-size: clamp(1.2rem, 3vw, 1.8rem);
+      }
+
+      .circle-container {
+        width: 350px;
+        height: 350px;
+        max-width: 80vw;
+        max-height: 80vw;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .circle-container {
+        width: 300px;
+        height: 300px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="main-container">
+    <div class="left-section">
+      <div class="content-box">
+        <div class="circle-container" id="circleContainer">
+          <div class="sound-waves">
+            <div class="wave wave-1"></div>
+            <div class="wave wave-2"></div>
+            <div class="wave wave-3"></div>
+          </div>
+          <div class="outer-circle"></div>
+          <div class="inner-circle">
+            <img src="song iamge/tv girl.jpg" class="center-image" alt="TV Girl">
+          </div>
+          <div class="white-dot"></div>
+        </div>
+        <div class="blue-hair-title">
+          <span class="blue-text">Blue</span> <span class="hair-text">hair</span>
+        </div>
+        <div class="audio-container">
+          <audio id="audio" autoplay>
+            <source src="TV_Girl_-_Blue_Hair_69510103.mp3" type="audio/mpeg">
+          </audio>
+          <div class="custom-player">
+            <div class="player-controls">
+              <button class="play-pause-btn" id="playPauseBtn">▶</button>
+              <div class="progress-container">
+                <div class="progress-bar-wrapper" id="progressWrapper">
+                  <div class="progress-bar" id="progressBar"></div>
+                </div>
+                <div class="time-display" id="timeDisplay">0:00 / 0:00</div>
+              </div>
+            </div>
+            <div class="volume-control">
+              <span class="volume-icon">🔊</span>
+              <div class="volume-bar-wrapper" id="volumeWrapper">
+                <div class="volume-bar" id="volumeBar"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="right-section">
+      <div class="lyrics-container">
+        <div id="lyrics"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const lyrics = [
+      {start:16, end:18, text:"She asked me how to be funny"},
+      {start:19, end:21, text:"But that's not something you can teach"},
+      {start:28, end:31, text:"What seemed so blue in the sunlight"},
+      {start:33, end:35, text:"By the night was a pale green"},
+      {start:42, end:46, text:"And I tried,to hold her"},
+      {start:47.5, end:49.7, text:"But it didn't really last long"},
+      {start:50, end:52, text:"And she's getting older"},
+      {start:54, end:57, text:"I guess she's gotta cut her blue hair off"},
+      {start:72.5, end:75, text:"She asked me if she was pretty"},
+      {start:75.5, end:78.6, text:"Well, it's clear that the girl's a fraud"},
+      {start:85, end:87, text:"There's really no way of winning"},
+      {start:87.5, end:92, text:"If in their eyes you'll always be a dumb blonde"},
+      {start:98.6, end:101, text:"And she cried,over nothing"},
+      {start:104, end:107, text:"So there was nothing I could do to stop"},
+      {start:107, end:108.8, text:"Her from cutting"},
+      {start:111, end:114, text:"Her beautiful blue hair off"},
+      {start:129, end:131.5, text:"It looked like cotton candy"},
+      {start:132, end:135, text:"And just as quick to get licked away"},
+      {start:141, end:144, text:"Last I heard she was living"},
+      {start:146, end:149, text:"With a boy who acts his age"},
+      {start:155, end:158, text:"And I guess I'll just miss her"},
+      {start:160, end:163, text:"Even though she isn't even really gone"},
+      {start:164, end:165, text:"But things are just different"},
+      {start:167, end:170, text:"Ever since she cut her blue hair off"}
+    ];
+
+    const audio = document.getElementById('audio');
+    const lyricsDiv = document.getElementById('lyrics');
+    const playPauseBtn = document.getElementById('playPauseBtn');
+    const progressBar = document.getElementById('progressBar');
+    const progressWrapper = document.getElementById('progressWrapper');
+    const timeDisplay = document.getElementById('timeDisplay');
+    const volumeBar = document.getElementById('volumeBar');
+    const volumeWrapper = document.getElementById('volumeWrapper');
+    const circleContainer = document.getElementById('circleContainer');
+
+    // Format time
+    function formatTime(seconds) {
+      const mins = Math.floor(seconds / 60);
+      const secs = Math.floor(seconds % 60);
+      return `${mins}:${secs.toString().padStart(2, '0')}`;
+    }
+
+    // Update time display
+    function updateTimeDisplay() {
+      const current = formatTime(audio.currentTime);
+      const total = formatTime(audio.duration || 0);
+      timeDisplay.textContent = `${current} / ${total}`;
+    }
+
+    // Update progress bar
+    function updateProgress() {
+      if (audio.duration) {
+        const percent = (audio.currentTime / audio.duration) * 100;
+        progressBar.style.width = percent + '%';
+      }
+      updateTimeDisplay();
+    }
+
+    // Play/Pause button
+    playPauseBtn.addEventListener('click', () => {
+      if (audio.paused) {
+        audio.play();
+        playPauseBtn.textContent = '⏸';
+      } else {
+        audio.pause();
+        playPauseBtn.textContent = '▶';
+      }
+    });
+
+    // Progress bar click
+    progressWrapper.addEventListener('click', (e) => {
+      const rect = progressWrapper.getBoundingClientRect();
+      const percent = (e.clientX - rect.left) / rect.width;
+      audio.currentTime = percent * audio.duration;
+    });
+
+    // Volume control
+    volumeWrapper.addEventListener('click', (e) => {
+      const rect = volumeWrapper.getBoundingClientRect();
+      const percent = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+      audio.volume = percent;
+      volumeBar.style.width = (percent * 100) + '%';
+    });
+
+    // Initialize volume
+    audio.volume = 1;
+    volumeBar.style.width = '100%';
+
+    // Audio event listeners
+    // Initialize lyrics display
+    function initLyrics() {
+      lyricsDiv.innerHTML = '';
+      lyrics.forEach((line, index) => {
+        const lineDiv = document.createElement('div');
+        lineDiv.className = 'lyric-line';
+        lineDiv.textContent = line.text;
+        lineDiv.dataset.index = index;
+        lyricsDiv.appendChild(lineDiv);
+      });
+    }
+
+    // Update active lyric
+    let currentActiveIndex = -1;
+
+    function updateActiveLyric(currentTime) {
+      let newActiveIndex = -1;
+      
+      lyrics.forEach((line, index) => {
+        const lineElement = lyricsDiv.children[index];
+        if (currentTime >= line.start && currentTime < line.end) {
+          if (newActiveIndex !== index) {
+            newActiveIndex = index;
+            lineElement.classList.add('active');
+            lineElement.classList.remove('past');
+            
+            // Smooth scroll to active line with delay for better transition
+            setTimeout(() => {
+              lineElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }, 100);
+          }
+        } else if (currentTime >= line.end) {
+          lineElement.classList.remove('active');
+          if (!lineElement.classList.contains('past')) {
+            lineElement.classList.add('past');
+          }
+        } else {
+          lineElement.classList.remove('active', 'past');
+        }
+      });
+
+      currentActiveIndex = newActiveIndex;
+    }
+
+    // Initialize on load
+    initLyrics();
+
+    audio.addEventListener('timeupdate', () => {
+      updateProgress();
+      const currentTime = audio.currentTime;
+      updateActiveLyric(currentTime);
+    });
+
+    audio.addEventListener('loadedmetadata', () => {
+      updateTimeDisplay();
+    });
+
+    audio.addEventListener('play', () => {
+      playPauseBtn.textContent = '⏸';
+      circleContainer.classList.add('playing');
+    });
+
+    audio.addEventListener('pause', () => {
+      playPauseBtn.textContent = '▶';
+      circleContainer.classList.remove('playing');
+    });
+  </script>
+</body>
+</html>
